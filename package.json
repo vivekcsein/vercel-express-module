@@ -10,7 +10,8 @@
     "start": "node dist/api/index.js",
     "start:local": "node dist/src/server.js",
     "lint": "eslint . --ext .ts,.tsx",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "deprecation-check": "node --trace-deprecation ./node_modules/typescript/bin/tsc --noEmit"
   },
   "dependencies": {
     "express": "^5.2.1"
