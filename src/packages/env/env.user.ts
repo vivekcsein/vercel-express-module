@@ -1,0 +1,28 @@
+import { z } from "zod";
+
+import { emailRules, passwordRules, fullnameRules } from "../../packages/configs/config.schema";
+
+// ✅ Schema uses the actual env var names (with NEXT_PUBLIC_ prefix)
+const envConfigSchema = z.object({
+  DEFAULT_USER_ID: z.string().default("default-user-1"),
+  DEFAULT_USER_FULLNAME: fullnameRules.default("John Doe"),
+  DEFAULT_USER_EMAIL: emailRules.default("johndoe@gmail.com"),
+  DEFAULT_USER_PASSWORD: passwordRules.default("johndoe#1234"),
+});
+
+// ✅ Validate process.env
+const parsed = envConfigSchema.safeParse(process.env);
+
+if (!parsed.success) {
+  throw new Error(
+    `❌ Invalid default User environment variables:\n${parsed.error.issues
+      .map((i) => `• ${i.path.join(".")}: ${i.message}`)
+      .join("\n")}`
+  );
+}
+
+// ✅ Map validated vars to clean keys
+export const envDefaultUserConfig = Object.freeze(parsed.data);
+
+// ✅ Optional: Type-safe config
+export type EnvDefaultUserConfig = typeof envDefaultUserConfig;

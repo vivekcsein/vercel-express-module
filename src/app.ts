@@ -1,13 +1,38 @@
 import path from "path";
 import express from "express";
 import type { Request, Response } from "express";
+import { ErrorHandler, NotFoundHandler } from "./packages/utils/utils.handler";
+
+
+// Middlewares
+import dotenv from "dotenv";
+import compression from "compression";
+import cookieParser from "cookie-parser";
+import helmetMiddleware from "./packages/middlewares/helmet";
+import { corsMiddleware } from "./packages/middlewares/cors";
+import { generalLimiter } from "./packages/middlewares/rateLimit";
 
 const createApp = async (): Promise<express.Express> => {
+  dotenv.config();
+  
   const app = express();
+  
+    // 🔐 Security headers
+  app.use(helmetMiddleware);
 
-    // 📦 Body parsers
+    // 🧊 Compression for faster responses
+  app.use(compression());
+
+    // 🍪 Cookie and CORS
+  app.use(corsMiddleware);
+  app.use(cookieParser());
+
+  // 📦 Body parsers
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true }));
+
+    // 🚦 Rate limiter BEFORE routes
+  app.use(generalLimiter);
 
   // 🧱 Static assets
   const viewsPath = path.join(process.cwd(), "src/assets/views");
@@ -27,6 +52,10 @@ const createApp = async (): Promise<express.Express> => {
       environment: process.env.NODE_ENV,
     });
   });
+
+  // 🧹 Catch-all 404 and error handler
+  app.use(NotFoundHandler);
+  app.use(ErrorHandler);
 
   return app;
 };
