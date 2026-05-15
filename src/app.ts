@@ -1,7 +1,7 @@
 import path from "path";
 import express from "express";
 import type { Request, Response } from "express";
-import { notFoundHandler } from "./packages/utils/utils.handler";
+// import { notFoundHandler,errorHandler } from "./packages/utils/utils.handler";
 
 
 // Middlewares
@@ -56,7 +56,7 @@ const createApp = async (): Promise<express.Express> => {
   });
 
   // 🧹 Catch-all 404 and error handler
-  app.use(notFoundHandler);
+  // app.use(notFoundHandler);
   // app.use(errorHandler);
 
   return app;
