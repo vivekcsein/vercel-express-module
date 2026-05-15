@@ -1,81 +1,201 @@
-import { type Request, type Response, type NextFunction } from "express";
+import type * as express from "express";
 
-export interface AppError extends Error {
-  statusCode?: number;
-  isOperational?: boolean;
+import {
+  sendErrorResponse,
+} from "./utils.response";
+
+// APP ERROR CLASS
+export class AppError extends Error {
+  public readonly statusCode: number;
+
+  public readonly isOperational: boolean;
+
+  public readonly details?: unknown;
+
+  constructor(
+    message: string,
+
+    statusCode = 500,
+
+    isOperational = true,
+
+    details?: unknown,
+  ) {
+    super(message);
+
+    this.name = this.constructor.name;
+
+    this.statusCode = statusCode;
+
+    this.isOperational = isOperational;
+
+    this.details = details;
+
+    Error.captureStackTrace(
+      this,
+      this.constructor,
+    );
+  }
 }
 
-// 404 Not Found Handler
-export const NotFoundHandler = (req: Request, res: Response): void => {
-  const acceptsJson = req.accepts("json");
-  const acceptsHtml = req.accepts("html");
 
-  const message = `Route ${req.originalUrl} not found`;
-
-  res.status(404);
-
-  if (acceptsJson) {
-    res.json({ success: false, message });
-  } else if (acceptsHtml) {
-    res.type("html").send(`<h1>404 - ${message}</h1>`);
-  } else {
-    res.type("text").send(`Error 404: ${message}`);
-  }
+    //  NOT FOUND HANDLER  
+export const notFoundHandler = (
+  req: express.Request,
+  res: express.Response,
+): express.Response => {
+  return sendErrorResponse(
+    res,
+    404,
+    `Route ${req.originalUrl} not found`,
+  );
 };
 
-// Centralized Error Handler
-export const ErrorHandler = (
-  error: AppError,
-  req: Request,
-  res: Response,
-  _next: NextFunction // unused in production
-): void => {
-  const isDev = process.env.NODE_ENV === "development";
+// ERROR HANDLER  
+export const errorHandler = (
+  error: unknown,
 
-  const statusCode = error.statusCode ?? 500;
-  let message = error.message ?? "Internal Server Error";
+  req: express.Request,
 
-  // Specific error overrides
-  switch (error.name) {
-    case "SequelizeValidationError":
-      message = "Validation error";
-      break;
-    case "SequelizeUniqueConstraintError":
-      message = "Resource already exists";
-      break;
-    case "JsonWebTokenError":
-      message = "Invalid token";
-      break;
-    case "TokenExpiredError":
-      message = "Token expired";
-      break;
+  res: express.Response,
+
+  _next: express.NextFunction,
+): express.Response => {
+
+//   ENVIRONMENT CHECK
+  const isDevelopment =
+    process.env.NODE_ENV ===
+    "development";
+
+//  DEFAULT VALUES
+  let statusCode = 500;
+
+  let message =
+    "Internal server error";
+
+  let details: unknown;
+
+// APP ERROR INSTANCE 
+  if (error instanceof AppError) {
+    statusCode = error.statusCode;
+
+    message = error.message;
+
+    details = error.details;
   }
 
-  // Optional: Use external logger here
-  if (isDev) {
-    console.error("Error Details:", {
-      message: error.message,
-      stack: error.stack,
-      statusCode,
-      path: req.path,
-      method: req.method,
-      timestamp: new Date().toISOString(),
-    });
+//  STANDARD ERROR
+  else if (error instanceof Error) {
+    message = error.message;
   }
 
-  res.status(statusCode).json({
+//  KNOWN ERROR OVERRIDES  
+  if (error instanceof Error) {
+    switch (error.name) {
+      case "JsonWebTokenError":
+        statusCode = 401;
+
+        message = "Invalid token";
+
+        break;
+
+      case "TokenExpiredError":
+        statusCode = 401;
+
+        message = "Token expired";
+
+        break;
+
+      case "ZodError":
+        statusCode = 400;
+
+        message =
+          "Validation failed";
+
+        break;
+
+      case "SequelizeValidationError":
+        statusCode = 400;
+
+        message =
+          "Validation error";
+
+        break;
+
+      case "SequelizeUniqueConstraintError":
+        statusCode = 409;
+
+        message =
+          "Resource already exists";
+
+        break;
+    }
+  }
+
+// LOGGING OF ERROR DETAILS
+  console.error({
     success: false,
+
+    statusCode,
+
     message,
-    ...(isDev && {
-      stack: error.stack,
-      error: error.name,
-    }),
+
+    method: req.method,
+
+    path: req.originalUrl,
+
+    timestamp:
+      new Date().toISOString(),
+
+    stack:
+      isDevelopment &&
+      error instanceof Error
+        ? error.stack
+        : undefined,
+  });
+
+//   RESPONSE SENT TO CLIENT
+  return res.status(statusCode).json({
+    success: false,
+
+    message,
+
+    ...(typeof details !== "undefined"
+        ? { details }: {}
+    ),
+
+        ...(isDevelopment &&
+    error instanceof Error
+    ? {
+        stack: error.stack,
+
+        error: error.name,
+      }
+    : {}),
   });
 };
 
-// Async wrapper for route handlers
-export const AsyncHandler = <T extends (...args: unknown[]) => Promise<unknown>>(fn: T) => {
-  return (req: Request, res: Response, next: NextFunction): void => {
-    void Promise.resolve(fn(req, res, next)).catch(next);
+//  ASYNC HANDLER WRAPPER
+type AsyncHandlerFunction = (
+  req: express.Request,
+
+  res: express.Response,
+
+  next: express.NextFunction,
+) => Promise<unknown>;
+
+export const asyncHandler = (
+  fn: AsyncHandlerFunction,
+) => {
+  return (
+    req: express.Request,
+
+    res: express.Response,
+
+    next: express.NextFunction,
+  ): void => {
+    Promise.resolve(
+      fn(req, res, next),
+    ).catch(next);
   };
 };

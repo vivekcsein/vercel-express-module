@@ -1,7 +1,7 @@
 import path from "path";
 import express from "express";
 import type { Request, Response } from "express";
-import { ErrorHandler, NotFoundHandler } from "./packages/utils/utils.handler";
+import { notFoundHandler,errorHandler } from "./packages/utils/utils.handler";
 
 
 // Middlewares
@@ -13,8 +13,10 @@ import { corsMiddleware } from "./packages/middlewares/cors";
 import { generalLimiter } from "./packages/middlewares/rateLimit";
 
 const createApp = async (): Promise<express.Express> => {
+  // 🌿 Load environment variables
   dotenv.config();
-  
+
+  // 🚀 Create Express app
   const app = express();
   
     // 🔐 Security headers
@@ -54,8 +56,8 @@ const createApp = async (): Promise<express.Express> => {
   });
 
   // 🧹 Catch-all 404 and error handler
-  app.use(NotFoundHandler);
-  app.use(ErrorHandler);
+  app.use(notFoundHandler);
+  app.use(errorHandler);
 
   return app;
 };
