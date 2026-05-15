@@ -6,10 +6,10 @@ import type { Request, Response } from "express";
 
 // Middlewares
 // import dotenv from "dotenv";
-import compression from "compression";
-import cookieParser from "cookie-parser";
-import helmetMiddleware from "./packages/middlewares/helmet";
-import { corsMiddleware } from "./packages/middlewares/cors";
+// import compression from "compression";
+// import cookieParser from "cookie-parser";
+// import helmetMiddleware from "./packages/middlewares/helmet";
+// import { corsMiddleware } from "./packages/middlewares/cors";
 // import { generalLimiter } from "./packages/middlewares/rateLimit";
 
 const createApp = async (): Promise<express.Express> => {
@@ -20,14 +20,14 @@ const createApp = async (): Promise<express.Express> => {
   const app = express();
   
     // 🔐 Security headers
-  app.use(helmetMiddleware);
+  // app.use(helmetMiddleware);
 
     // 🧊 Compression for faster responses
-  app.use(compression());
+  // app.use(compression());
 
     // 🍪 Cookie and CORS
-  app.use(corsMiddleware);
-  app.use(cookieParser());
+  // app.use(corsMiddleware);
+  // app.use(cookieParser());
 
   // 📦 Body parsers
   app.use(express.json({ limit: "10mb" }));
