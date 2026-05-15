@@ -8,7 +8,7 @@ import type { Request, Response } from "express";
 // import dotenv from "dotenv";
 import compression from "compression";
 import cookieParser from "cookie-parser";
-// import helmetMiddleware from "./packages/middlewares/helmet";
+import helmetMiddleware from "./packages/middlewares/helmet";
 // import { corsMiddleware } from "./packages/middlewares/cors";
 // import { generalLimiter } from "./packages/middlewares/rateLimit";
 
@@ -20,7 +20,7 @@ const createApp = async (): Promise<express.Express> => {
   const app = express();
   
     // 🔐 Security headers
-  // app.use(helmetMiddleware);
+  app.use(helmetMiddleware);
 
     // 🧊 Compression for faster responses
   app.use(compression());
