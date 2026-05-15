@@ -9,8 +9,8 @@ import type { Request, Response } from "express";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 // import helmetMiddleware from "./packages/middlewares/helmet";
-import { corsMiddleware } from "./packages/middlewares/cors";
-// import { generalLimiter } from "./packages/middlewares/rateLimit";
+// import { corsMiddleware } from "./packages/middlewares/cors";
+import { generalLimiter } from "./packages/middlewares/rateLimit";
 
 const createApp = async (): Promise<express.Express> => {
   // 🌿 Load environment variables
@@ -26,7 +26,7 @@ const createApp = async (): Promise<express.Express> => {
   app.use(compression());
 
     // 🍪 Cookie and CORS
-  app.use(corsMiddleware);
+  // app.use(corsMiddleware);
   app.use(cookieParser());
 
   // 📦 Body parsers
@@ -34,7 +34,7 @@ const createApp = async (): Promise<express.Express> => {
   app.use(express.urlencoded({ extended: true }));
 
     // 🚦 Rate limiter BEFORE routes
-  // app.use(generalLimiter);
+  app.use(generalLimiter);
 
   // 🧱 Static assets
   const viewsPath = path.join(process.cwd(), "src/assets/views");
