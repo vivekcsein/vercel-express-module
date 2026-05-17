@@ -4,7 +4,7 @@ import type { Request, Response } from "express";
 import { errorHandler, notFoundHandler } from "./packages/utils/utils.handler";
 
 // Middlewares
-// import dotenv from "dotenv";
+import dotenv from "dotenv";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 // import helmetMiddleware from "./packages/middlewares/helmet";
@@ -13,7 +13,7 @@ import cookieParser from "cookie-parser";
 
 const createApp = async (): Promise<express.Express> => {
   // 🌿 Load environment variables
-  // dotenv.config();
+  dotenv.config();
 
   // 🚀 Create Express app
   const app = express();
