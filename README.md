@@ -279,7 +279,7 @@ Best for:
 For new projects:
 
 ```txt
-Version 1
+Version 2
 ```
 
 Recommended stack:

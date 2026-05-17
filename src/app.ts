@@ -7,9 +7,9 @@ import { errorHandler, notFoundHandler } from "./packages/utils/utils.handler";
 import dotenv from "dotenv";
 import compression from "compression";
 import cookieParser from "cookie-parser";
-// import helmetMiddleware from "./packages/middlewares/helmet";
-// import { corsMiddleware } from "./packages/middlewares/cors";
-// import { generalLimiter } from "./packages/middlewares/rateLimit";
+import helmetMiddleware from "./packages/middlewares/helmet";
+import { corsMiddleware } from "./packages/middlewares/cors";
+import { generalLimiter } from "./packages/middlewares/rateLimit";
 
 const createApp = async (): Promise<express.Express> => {
   // 🌿 Load environment variables
@@ -19,13 +19,13 @@ const createApp = async (): Promise<express.Express> => {
   const app = express();
   
     // 🔐 Security headers
-  // app.use(helmetMiddleware);
+  app.use(helmetMiddleware);
 
     // 🧊 Compression for faster responses
   app.use(compression());
 
     // 🍪 Cookie and CORS
-  // app.use(corsMiddleware);
+  app.use(corsMiddleware);
   app.use(cookieParser());
 
   // 📦 Body parsers
@@ -33,7 +33,7 @@ const createApp = async (): Promise<express.Express> => {
   app.use(express.urlencoded({ extended: true }));
 
     // 🚦 Rate limiter BEFORE routes
-  // app.use(generalLimiter);
+  app.use(generalLimiter);
 
   // 🧱 Static assets
   const viewsPath = path.join(process.cwd(), "src/assets/views");
