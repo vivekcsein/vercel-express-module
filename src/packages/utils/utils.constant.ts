@@ -1,11 +1,78 @@
-export const ACCESS_TOKEN_COOKIE = "access_token";
+// TOKEN CONFIGS
+export const ACCESS_TOKEN_CONFIG = {
+  ACCESS_TOKEN_COOKIE: "access_token",
+  ACCESS_TOKEN_PREFIX: "atk",
+  ACCESS_TOKEN_LENGTH: 48,
+};
 
-export const REFRESH_TOKEN_COOKIE = "refresh_token";
+export const REFRESH_TOKEN_CONFIG = {
+  REFRESH_TOKEN_COOKIE: "refresh_token",
+  REFRESH_TOKEN_PREFIX: "rtk",
+  REFRESH_TOKEN_LENGTH: 96,
+};
 
-export const ACCESS_TOKEN_PREFIX = "atk";
+// TOKEN TYPES
+export const AUTH_TOKEN_TYPES = {
+  ACCESS_TOKEN: "ACCESS_TOKEN",
+  REFRESH_TOKEN: "REFRESH_TOKEN",
+  EMAIL_VERIFICATION_TOKEN: "EMAIL_VERIFICATION_TOKEN",
+  PASSWORD_RESET_TOKEN: "PASSWORD_RESET_TOKEN",
+} as const;
+export type AuthTokenType = keyof typeof AUTH_TOKEN_TYPES;
 
-export const REFRESH_TOKEN_PREFIX = "rtk";
+export const AUTH_SESSION_STATUS = {
+  ACTIVE: "ACTIVE",
+  REVOKED: "REVOKED",
+  EXPIRED: "EXPIRED",
+} as const;
+export type AuthSessionStatus = keyof typeof AUTH_SESSION_STATUS;
 
-export const ACCESS_TOKEN_LENGTH = 48;
+// SECURITY LIMITS
+export const AUTH_SECURITY_LIMITS = {
+  MAX_LOGIN_ATTEMPTS: 5,
 
-export const REFRESH_TOKEN_LENGTH = 96;
+  MAX_PASSWORD_RESET_ATTEMPTS: 3,
+
+  MAX_EMAIL_VERIFICATION_ATTEMPTS: 5,
+
+  MAX_2FA_ATTEMPTS: 5,
+
+  ACCOUNT_LOCK_TIME: 1000 * 60 * 15,
+} as const;
+
+// SESSION LIMITS
+export const AUTH_SESSION_LIMITS = {
+  MAX_ACTIVE_SESSIONS: 5,
+} as const;
+
+// AUTH PROVIDERS
+export const AUTH_PROVIDERS = {
+  EMAIL: "EMAIL",
+
+  GOOGLE: "GOOGLE",
+
+  DISCORD: "DISCORD",
+} as const;
+export type AuthProvider = keyof typeof AUTH_PROVIDERS;
+
+// 2FA TYPES
+export const AUTH_2FA_TYPES = {
+  TOTP: "TOTP",
+  EMAIL: "EMAIL",
+} as const;
+export type Auth2FAType = keyof typeof AUTH_2FA_TYPES;
+
+// RATE LIMITS
+export const AUTH_RATE_LIMITS = {
+  SIGNIN_WINDOW_MS: 1000 * 60 * 15,
+
+  SIGNIN_MAX_REQUESTS: 10,
+
+  SIGNUP_WINDOW_MS: 1000 * 60 * 60,
+
+  SIGNUP_MAX_REQUESTS: 5,
+
+  PASSWORD_RESET_WINDOW_MS: 1000 * 60 * 15,
+
+  PASSWORD_RESET_MAX_REQUESTS: 3,
+} as const;

@@ -17,14 +17,14 @@ const createApp = async (): Promise<express.Express> => {
 
   // 🚀 Create Express app
   const app = express();
-  
-    // 🔐 Security headers
+
+  // 🔐 Security headers
   app.use(helmetMiddleware);
 
-    // 🧊 Compression for faster responses
+  // 🧊 Compression for faster responses
   app.use(compression());
 
-    // 🍪 Cookie and CORS
+  // 🍪 Cookie and CORS
   app.use(corsMiddleware);
   app.use(cookieParser());
 
@@ -32,7 +32,7 @@ const createApp = async (): Promise<express.Express> => {
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true }));
 
-    // 🚦 Rate limiter BEFORE routes
+  // 🚦 Rate limiter BEFORE routes
   app.use(generalLimiter);
 
   // 🧱 Static assets

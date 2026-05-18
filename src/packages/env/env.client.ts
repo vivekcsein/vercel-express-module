@@ -12,17 +12,14 @@ const parsed = envConfigSchema.safeParse(process.env);
 
 if (!parsed.success) {
   throw new Error(
-    `❌ Invalid frontend environment variables:\n${parsed.error.issues
+    `❌ Invalid client environment variables:\n${parsed.error.issues
       .map((i) => `• ${i.path.join(".")}: ${i.message}`)
       .join("\n")}`
   );
 }
 
 // ✅ Export validated config
-export const envFrontendConfig = Object.freeze({
-  APP_FRONTEND: parsed.data.CLIENT_URL,
-  APP_FRONTEND_API: parsed.data.CLIENT_API_URL,
-});
+export const envClientConfig = Object.freeze(parsed.data);
 
 // ✅ Optional: Export type
-export type EnvFrontendConfig = z.infer<typeof envConfigSchema>;
+export type EnvClientConfig = z.infer<typeof envConfigSchema>;

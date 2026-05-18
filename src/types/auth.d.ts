@@ -1,17 +1,13 @@
-/* -------------------------------------------------------------------------- */
-/*                               BASE ENTITIES                                */
-/* -------------------------------------------------------------------------- */
+import { UserRole } from "../packages/configs/config.roles";
 
+// BASE ENTITIES
 export interface BaseEntity {
   id: string;
   created_at: string;
   updated_at: string;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                   USER                                     */
-/* -------------------------------------------------------------------------- */
-
+// USER
 export interface User extends BaseEntity {
   email: string;
   fullname: string;
@@ -20,16 +16,7 @@ export interface User extends BaseEntity {
   role?: UserRole;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                   ENUMS                                    */
-/* -------------------------------------------------------------------------- */
-
-export type UserRole = "USER" | "ADMIN" | "MODERATOR";
-
-/* -------------------------------------------------------------------------- */
-/*                              AUTH CREDENTIALS                              */
-/* -------------------------------------------------------------------------- */
-
+// AUTH CREDENTIALS
 export interface SigninCredentials {
   email: string;
   password: string;
@@ -39,29 +26,20 @@ export interface SignupCredentials extends SigninCredentials {
   fullname: string;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                  TOKENS                                    */
-/* -------------------------------------------------------------------------- */
-
+// TOKENS
 export interface AuthTokens {
   access_token: string;
   refresh_token: string;
   expires_in: number;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                  SESSION                                   */
-/* -------------------------------------------------------------------------- */
-
+// SESSION
 export interface Session {
   user: User;
   expires_in: number;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                            REQUEST BODY TYPES                              */
-/* -------------------------------------------------------------------------- */
-
+// REQUEST BODY TYPES
 export interface SignupRequestBody {
   email: string;
   password: string;
@@ -86,20 +64,14 @@ export interface ResetPasswordRequestBody {
   password: string;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                              SUCCESS RESPONSE                              */
-/* -------------------------------------------------------------------------- */
-
+//  SUCCESS RESPONSE
 export interface SuccessResponse<T = unknown> {
   success: true;
   message: string;
   data?: T;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                               ERROR RESPONSE                               */
-/* -------------------------------------------------------------------------- */
-
+// ERROR RESPONSE
 export interface ErrorResponse {
   success: false;
   message: string;
@@ -107,16 +79,10 @@ export interface ErrorResponse {
   issues?: unknown;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                             GENERIC API RESPONSE                           */
-/* -------------------------------------------------------------------------- */
-
+// GENERIC API RESPONSE
 export type ApiResponse<T = unknown> = SuccessResponse<T> | ErrorResponse;
 
-/* -------------------------------------------------------------------------- */
-/*                             AUTH API RESPONSES                             */
-/* -------------------------------------------------------------------------- */
-
+//  AUTH API RESPONSES
 export interface AuthResponseData {
   user: User;
   session: Session;
@@ -124,21 +90,16 @@ export interface AuthResponseData {
 
 export type AuthResponse = ApiResponse<AuthResponseData>;
 
-/* -------------------------------------------------------------------------- */
-/*                               REQUEST USER                                 */
-/* -------------------------------------------------------------------------- */
-
+//  REQUEST USER
 export interface RequestUser {
   id: string;
   email: string;
   fullname: string;
   role?: UserRole;
+  is_verified?: boolean;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                          AUTHENTICATED REQUEST                             */
-/* -------------------------------------------------------------------------- */
-
+//  AUTHENTICATED REQUEST
 declare global {
   namespace Express {
     interface Request {

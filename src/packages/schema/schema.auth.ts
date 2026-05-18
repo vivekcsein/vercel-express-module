@@ -6,10 +6,7 @@ import {
   termsAcceptedRules,
 } from "../configs/config.schema";
 
-/* -------------------------------------------------------------------------- */
-/*                               SCHEMA                                       */
-/* -------------------------------------------------------------------------- */
-
+// SCHEMA
 export const signupSchema = z
   .object({
     fullname: fullnameRules.optional(),
@@ -58,10 +55,7 @@ export const contactSchema = z.object({
   newsletter: z.boolean().optional(),
 });
 
-/* -------------------------------------------------------------------------- */
-/*                               SCHEMA OUTPUT                                */
-/* -------------------------------------------------------------------------- */
-
+//  SCHEMA OUTPUT
 export type SignupSchemaInput = z.infer<typeof signupSchema>;
 
 export type SignupSchemaOutput = z.output<typeof signupSchema>;

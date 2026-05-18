@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 // ✅ Schema uses the actual env var names (with NEXT_PUBLIC_ prefix)
@@ -11,13 +10,18 @@ const envConfigSchema = z.object({
   API_PATH: z.string().default("/api"),
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
 
-  APP_SECRET: z.string().min(10, "APP_SECRET must be at least 10 characters").default("super-secret-key"),
+  APP_SECRET: z
+    .string()
+    .min(10, "APP_SECRET must be at least 10 characters")
+    .default("super-secret-key"),
 
   RATE_LIMIT_WINDOW_MS: z.coerce.number().default(900000), //15 minutes
   RATE_LIMIT_MAX_REQUESTS: z.coerce.number().default(100), //10 requests per windowMs
 
   LOG_LEVEL: z.enum(["error", "warn", "info", "debug"]).default("info"),
 
+  ENABLE_REDIS: z.coerce.boolean().default(false),
+  ENABLE_SMTP: z.coerce.boolean().default(false),
   ENABLE_SWAGGER: z.coerce.boolean().default(true),
   ENABLE_RATE_LIMIT: z.coerce.boolean().default(true),
   ENABLE_REQUEST_LOGGING: z.coerce.boolean().default(true),
@@ -46,6 +50,8 @@ export const envAppConfig = Object.freeze({
   RATE_LIMIT_WINDOW_MS: parsed.data.RATE_LIMIT_WINDOW_MS,
   RATE_LIMIT_MAX_REQUESTS: parsed.data.RATE_LIMIT_MAX_REQUESTS,
   LOG_LEVEL: parsed.data.LOG_LEVEL,
+  ENABLE_REDIS: parsed.data.ENABLE_REDIS,
+  ENABLE_SMTP: parsed.data.ENABLE_SMTP,
   ENABLE_SWAGGER: parsed.data.ENABLE_SWAGGER,
   ENABLE_RATE_LIMIT: parsed.data.ENABLE_RATE_LIMIT,
   ENABLE_REQUEST_LOGGING: parsed.data.ENABLE_REQUEST_LOGGING,

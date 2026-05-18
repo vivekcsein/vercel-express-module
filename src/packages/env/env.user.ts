@@ -8,6 +8,9 @@ const envConfigSchema = z.object({
   DEFAULT_USER_FULLNAME: fullnameRules.default("John Doe"),
   DEFAULT_USER_EMAIL: emailRules.default("johndoe@gmail.com"),
   DEFAULT_USER_PASSWORD: passwordRules.default("johndoe#1234"),
+  DEFAULT_USER_AVATAR_URL: z.string().default(""),
+  DEFAULT_USER_ROLE: z.enum(["USER", "ADMIN", "MODERATOR"]).default("USER"),
+  DEFAULT_USER_STATUS: z.enum(["ACTIVE", "INACTIVE"]).default("ACTIVE"),
 });
 
 // ✅ Validate process.env

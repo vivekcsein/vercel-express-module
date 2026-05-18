@@ -3,17 +3,13 @@ import type { ZodType, ZodError } from "zod";
 // TYPES
 interface ValidationSuccess<T> {
   success: true;
-
   data: T;
 }
 
 interface ValidationError {
   success: false;
-
   field: string;
-
   message: string;
-
   issues: ZodError["issues"];
 }
 
@@ -32,18 +28,14 @@ export const validateSchema = <TSchema extends ZodType>(
 
     return {
       success: false,
-
       field: issue?.path?.[0]?.toString() || "unknown",
-
       message: issue?.message || "Validation failed",
-
       issues: validatedData.error.issues,
     };
   }
 
   return {
     success: true,
-
     data: validatedData.data as ReturnType<TSchema["parse"]>,
   };
 };
