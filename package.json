@@ -2,7 +2,7 @@
   "name": "vercel-express-module",
   "version": "1.0.0",
   "description": "A simple Express backend starter for Vercel with latest TypeScript and module support.",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "rimraf dist && tsc -p tsconfig.json && tsc-esm-fix --target='dist'",

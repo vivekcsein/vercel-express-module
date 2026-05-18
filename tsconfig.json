@@ -3,8 +3,8 @@
     "target": "ES2022",
     "lib": ["ES2022"],
 
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "verbatimModuleSyntax": false,
     "rewriteRelativeImportExtensions": true,
     "moduleDetection": "force",
