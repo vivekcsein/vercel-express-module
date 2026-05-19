@@ -1,14 +1,18 @@
+import { envAuthConfig } from "../env/env.auth";
+
 // TOKEN CONFIGS
 export const ACCESS_TOKEN_CONFIG = {
   ACCESS_TOKEN_COOKIE: "access_token",
   ACCESS_TOKEN_PREFIX: "atk",
   ACCESS_TOKEN_LENGTH: 48,
+  ACCESS_TOKEN_EXPIRES_IN: envAuthConfig.ACCESS_TOKEN_EXPIRES_IN,
 };
 
 export const REFRESH_TOKEN_CONFIG = {
   REFRESH_TOKEN_COOKIE: "refresh_token",
   REFRESH_TOKEN_PREFIX: "rtk",
   REFRESH_TOKEN_LENGTH: 96,
+  REFRESH_TOKEN_EXPIRES_IN: envAuthConfig.REFRESH_TOKEN_EXPIRES_IN,
 };
 
 // TOKEN TYPES
@@ -76,3 +80,9 @@ export const AUTH_RATE_LIMITS = {
 
   PASSWORD_RESET_MAX_REQUESTS: 3,
 } as const;
+
+export const AUTH_MAILER_CONFIG = {
+  EMAIL_VERIFICATION_EXPIRES_IN: 1,
+  PASSWORD_RESET_EXPIRES_IN: 1,
+};
+export type AuthMailerConfig = typeof AUTH_MAILER_CONFIG;

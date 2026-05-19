@@ -10,8 +10,9 @@ const envConfigSchema = z.object({
   JWT_SESSION_SECRET: z.string().min(10).default("jwt-session-secret"),
   JWT_COOKIE_SECRET: z.string().min(10).default("jwt-cookie-secret"),
 
-  ACCESS_TOKEN_EXPIRES_IN: z.string().default("1d"),
-  REFRESH_TOKEN_EXPIRES_IN: z.string().default("30d"),
+  // expiry date of tokens in days
+  ACCESS_TOKEN_EXPIRES_IN: z.coerce.number().default(1),
+  REFRESH_TOKEN_EXPIRES_IN: z.coerce.number().default(30),
 
   COOKIE_SECRET: z.string().min(10).default("cookie-secret"),
   COOKIE_SECURE: z.boolean().default(true),

@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import helmetMiddleware from "./packages/middlewares/helmet";
 import { corsMiddleware } from "./packages/middlewares/cors";
 import { generalLimiter } from "./packages/middlewares/rateLimit";
+import authRoutes from "./app/api/auth/routes/routes.auth";
 
 const createApp = async (): Promise<express.Express> => {
   // 🌿 Load environment variables
@@ -53,6 +54,9 @@ const createApp = async (): Promise<express.Express> => {
       environment: process.env.NODE_ENV,
     });
   });
+
+  // Auth routes will go here in the future
+  app.use("/api/auth", authRoutes);
 
   // 🧹 Catch-all 404 and error handler
   app.use(notFoundHandler);
