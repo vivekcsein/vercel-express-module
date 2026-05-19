@@ -10,6 +10,8 @@ import cookieParser from "cookie-parser";
 import helmetMiddleware from "./packages/middlewares/helmet";
 import { corsMiddleware } from "./packages/middlewares/cors";
 import { generalLimiter } from "./packages/middlewares/rateLimit";
+
+// Routes
 import authRoutes from "./app/api/auth/routes/routes.auth";
 
 const createApp = async (): Promise<express.Express> => {
@@ -18,6 +20,8 @@ const createApp = async (): Promise<express.Express> => {
 
   // 🚀 Create Express app
   const app = express();
+
+  app.set("trust proxy", 1);
 
   // 🔐 Security headers
   app.use(helmetMiddleware);
