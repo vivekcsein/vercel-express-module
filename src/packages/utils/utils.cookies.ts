@@ -1,6 +1,5 @@
-import type { Response, CookieOptions } from "express";
-
 import { envAuthConfig } from "../env/env.auth";
+import type { Response, CookieOptions } from "express";
 
 export const baseCookieOptions: CookieOptions = {
   httpOnly: envAuthConfig.COOKIE_HTTP_ONLY,

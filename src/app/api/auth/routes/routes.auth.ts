@@ -8,24 +8,19 @@ import {
   healthCheck,
   signup,
   signin,
-  //   logout,
-  //   logoutAllSessions,
-  //   refreshAccessToken,
-  //   getCurrentUser,
-  //   verifyEmail,
-  //   resendVerificationEmail,
-  //   forgotPassword,
-  //   resetPassword,
-  //   changePassword,
-  //   updateProfile,
-  //   deleteAccount,
-  //   enableTwoFactor,
-  //   verifyTwoFactor,
-  //   disableTwoFactor,
-  //   getSessions,
-  //   revokeSession,
-  //   oauthGoogle,
-  //   oauthGoogleCallback,
+  logout,
+  logoutAllSessions,
+  refreshAccessToken,
+  getCurrentUser,
+  verifyEmail,
+  resendVerificationEmail,
+  forgotPassword,
+  resetPassword,
+  updateProfile,
+  changePassword,
+  deleteAccount,
+  getSessions,
+  revokeSession,
 } from "../controllers/controllers.auth";
 
 const authRoutes: Router = Router();
@@ -34,6 +29,7 @@ const authRoutes: Router = Router();
 authRoutes.get("/health", healthCheck);
 
 // PUBLIC AUTH ROUTES
+
 // Register new account
 authRoutes.post("/signup", signup);
 
@@ -41,43 +37,47 @@ authRoutes.post("/signup", signup);
 authRoutes.post("/signin", signin);
 
 // // Refresh JWT access token
-// authRoutes.post("/refresh", refreshAccessToken);
+authRoutes.post("/refresh", refreshAccessToken);
 
-// // Logout current session
-// authRoutes.post("/logout", authGuard, logout);
+// Logout current session
+authRoutes.post("/logout", authGuard, logout);
 
-// // Logout from all devices/sessions
-// authRoutes.post("/logout-all", authGuard, logoutAllSessions);
+// Logout from all devices/sessions
+authRoutes.post("/logout-all", authGuard, logoutAllSessions);
 
 // // EMAIL VERIFICATION FLOW
+
 // // Verify email token
-// authRoutes.get("/verify-email/:token", verifyEmail);
+authRoutes.get("/verify-email/:token", verifyEmail);
 
 // // Resend verification email
-// authRoutes.post("/resend-verification", authGuard, resendVerificationEmail);
+authRoutes.post("/resend-verification", authGuard, resendVerificationEmail);
 
-// //  PASSWORD RECOVERY
-// // Request reset password email
-// authRoutes.post("/forgot-password", forgotPassword);
+// PASSWORD RECOVERY
 
-// // Reset password using token
-// authRoutes.post("/reset-password/:token", resetPassword);
+// Request reset password email
+authRoutes.post("/forgot-password", forgotPassword);
 
-// // PROTECTED USER ROUTES (require authentication)
-// // Get current logged-in user
-// authRoutes.get("/me", authGuard, getCurrentUser);
+// Reset password using token
+authRoutes.post("/reset-password/:token", resetPassword);
 
-// // Update own profile
-// authRoutes.patch("/profile", authGuard, updateProfile);
+// PROTECTED USER ROUTES (require authentication)
 
-// // Change password
-// authRoutes.patch("/change-password", authGuard, changePassword);
+// Get current logged-in user
+authRoutes.get("/me", authGuard, getCurrentUser);
 
-// // Delete own account
-// authRoutes.delete("/delete-account", authGuard, deleteAccount);
+// Update own profile
+authRoutes.patch("/profile", authGuard, updateProfile);
 
-// // TWO FACTOR AUTH
-// // Enable 2FA
+// Change password
+authRoutes.patch("/change-password", authGuard, changePassword);
+
+// Delete own account
+authRoutes.delete("/delete-account", authGuard, deleteAccount);
+
+// TWO FACTOR AUTH
+
+// Enable 2FA
 // authRoutes.post("/2fa/enable", authGuard, verifiedGuard, enableTwoFactor);
 
 // // Verify 2FA setup/login
@@ -86,14 +86,16 @@ authRoutes.post("/signin", signin);
 // // Disable 2FA
 // authRoutes.post("/2fa/disable", authGuard, verifiedGuard, disableTwoFactor);
 
-// // SESSION MANAGEMENT
-// // Get all active sessions/devices
-// authRoutes.get("/sessions", authGuard, getSessions);
+// SESSION MANAGEMENT
+
+// Get all active sessions/devices
+authRoutes.get("/sessions", authGuard, getSessions);
 
 // // Revoke a specific session/device
-// authRoutes.delete("/sessions/:sessionId", authGuard, revokeSession);
+authRoutes.delete("/sessions/:sessionId", authGuard, revokeSession);
 
-// // OAUTH LOGIN
+// OAUTH LOGIN
+
 // // Google OAuth
 // authRoutes.get("/oauth/google", oauthGoogle);
 

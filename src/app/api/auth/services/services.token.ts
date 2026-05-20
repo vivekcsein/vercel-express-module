@@ -1,5 +1,3 @@
-// auth/utils/auth.token.ts
-
 import { AppError } from "../../../../packages/utils/utils.handler";
 import { hashToken } from "../../../../packages/utils/utils.crypto";
 
